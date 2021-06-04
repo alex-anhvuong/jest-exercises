@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`usersReducer SAVE_USER action should append to state array 1`] = `
 Object {
   "users": Array [

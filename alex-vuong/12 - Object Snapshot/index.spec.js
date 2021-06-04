@@ -1,7 +1,22 @@
 import { createStore, combineReducers } from 'redux';
 
 const usersReducer = (state, action) => {
-  // Implement this reducer to pass the tests below
+  // Implement this reducer to pass the tests belows
+  switch (action.type) {
+    case 'SAVE_USER':
+      let userExist = false;
+      const newState = [...state];
+      newState.forEach(user => {
+        if (user.handle == action.user.handle) {
+          userExist = true;
+          user.role = action.user.role;
+        }
+      });
+      if (userExist) return newState;
+      return [...newState, action.user];
+    default:
+      return [];
+  }
 };
 
 const configureStore = (initialState = {}) => {
