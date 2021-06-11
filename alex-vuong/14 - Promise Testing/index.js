@@ -24,35 +24,35 @@ export const defaultFetchHeaders = {
 
 export const camelCase = input => {
   // TODO: implement
-  const firstChar = input.charAt(0);
-  return input.replace(firstChar, firstChar.toLowerCase());
-};
-
-const normalizeCasing = value => {
-  //  If value is an array
-  if (Array.isArray(value)) {
-    for (const e of value)
-      normalizeCasing(e);
+  //  If input is an array
+  if (Array.isArray(input)) {
+    for (const e of input)
+      camelCase(e);
   }
-  //  If value is an object
-  //  look into value's keys
-  else if (typeof value == "object") {
-    // camelCase for all propeties in value
+  //  If input is an object
+  //  look into input's keys
+  else if (typeof input == "object") {
+    // camelCase for all propeties in input
     // and normalize the value of each key
-    for (const property in value) {
-      const camelCaseKey = camelCase(property);
+    for (const property in input) {
+      const camelCaseKey = normalizeCasing(property);
 
       //  camelCase the property if it hasn't been cameled
       if (camelCaseKey != property) {
-        value[camelCaseKey] = value[property];
-        delete value[property];
+        input[camelCaseKey] = input[property];
+        delete input[property];
       }
 
       //  normalise the value of the property
-      normalizeCasing(value[camelCaseKey]);
+      camelCase(input[camelCaseKey]);
     }
   }
-  return value;
+  return input;
+};
+
+const normalizeCasing = value => {
+  const firstChar = value.charAt(0);
+  return value.replace(firstChar, firstChar.toLowerCase());
 };
 
 const callApi = (url = LOCATION_ORIGIN, options = defaultFetchHeaders) => {
@@ -63,7 +63,7 @@ const callApi = (url = LOCATION_ORIGIN, options = defaultFetchHeaders) => {
     res => {
       return {
         'resp': res,
-        'json': res.status != 204 ? normalizeCasing(JSON.parse(res.body)) : null,
+        'json': res.status != 204 ? camelCase(JSON.parse(res.body)) : null,
       }
     }
   );

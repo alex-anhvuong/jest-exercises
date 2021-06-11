@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`callApi should handle null/empty array/undefined within results 1`] = `
 Object {
   "addresses": Array [],
